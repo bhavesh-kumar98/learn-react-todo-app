@@ -9,7 +9,9 @@ h1 {
   margin: 10px;
   margin-bottom: 20px;
 }
-
+.cBold {
+  font-weight: 500;
+}
 input {
   width: 100%;
 }
