@@ -4,11 +4,7 @@
   box-sizing: border-box;
 }
 
-h1 {
-  font-weight: 700;
-  margin: 10px;
-  margin-bottom: 20px;
-}
+
 .cBold {
   font-weight: 500;
 }
@@ -22,6 +18,7 @@ input {
 
 .cRow {
   margin: 20px 0;
+  text-align: left;
 }
 
 .cBtn {
