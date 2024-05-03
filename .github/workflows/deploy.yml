@@ -17,7 +17,7 @@ I learned
 
 How to **deploy** on GitHub a **react** + **vite** app
   - setup base in vite.cofig
-    *base: "/[GitHub-Repo-Name]/"*
+    *base:* "/[GitHub-Repo-Name]/"
 
   - Create ./github/workflows/deploy.yml and add the code bellow
     ```bash
