@@ -22,6 +22,10 @@ function App() {
       todoName: "Ghee",
       todoDate: "4/1/2024",
     },
+    {
+      todoName: "IceCream",
+      todoDate: "4/1/2024",
+    },
   ];
   return (
     <center className="todo-container">
