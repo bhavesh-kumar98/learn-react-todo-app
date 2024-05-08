@@ -1,11 +1,19 @@
-function TodoItem({ todoName, todoDate }) {
+function TodoItem({ todoName, todoDate, onDeleteClick }) {
   return (
     <div className="container">
       <div className="row cRow">
-        <div className="col-6 text-uppercase cBold">{todoName}</div>
+        <div 
+        key={todoName} 
+        className="col-6 text-uppercase cBold">
+          {todoName}
+        </div>
         <div className="col-4">{todoDate}</div>
         <div className="col-2">
-          <button type="button" className="btn btn-danger cBtn">
+          <button
+            type="button"
+            className="btn btn-danger cBtn"
+            onClick={() => onDeleteClick(todoName)}
+          >
             Delete
           </button>
         </div>

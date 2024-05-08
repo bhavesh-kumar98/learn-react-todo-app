@@ -93,18 +93,18 @@ How to **deploy** on GitHub a **react** + **vite** app
 **2. In this commit:**
 I learned
 
-- Fragements <>...</>
+- Fragments <>...</>
 - **Map** method
   ```bash
-    {items.map(*item*=><li>{*item*}</li>)}
+    {items.map( item => <li>{item}</li>)}
   ```
 - **key props**
   ```bash
-    <div **key**={item.id}>...</div>
+    <div key={item.id}>...</div>
   ```
 - **Conditional Rendering**
 
-  - \*Ternary opr. **?:\***, \*logical opr. **&&\***
+  - *Ternary opr*. **?:**, *logical opr*. **&&**
 
     ```bash
       con ? value1 : value2
@@ -114,18 +114,19 @@ I learned
 
     ```
 
-- \*passing Data Via **props\***
+- *passing* Data Via **props**
 
   ```bash
     //APP.jsx
     let myData = [1,2,3];
-    <HeaderComp myPropName={myData}></HeaderCopm>
+    <HeaderComp myPropName={myData}></HeaderComp>
     <FooterComp myPropName={myData}></FooterComp>
 
     //HeaderComp.jsx
     //using destructuring method
     export default function HeaderComp({myPropName}) {
       return(<p>{myPropName[0]}</p>);
+    }
 
     //FooterComp.jsx
     export default function FooterComp(prop) {
@@ -141,7 +142,7 @@ I learned
 
     ```bash
       //APP.jsx
-      <HeaderComp></HeaderCopm>
+      <HeaderComp></HeaderComp>
       <NavComp></NavComp>
 
       //NavComp.modules.css
@@ -149,7 +150,7 @@ I learned
       .navBtn { bg-c: black;}
 
       //NavComp.jsx
-      import styles from './NavrComp.modules.css'
+      import styles from './NavComp.modules.css'
 
       export default function NavComp() {
         return(
@@ -160,5 +161,153 @@ I learned
         }
     ```
 
-- last but not least, update ToDo app
-- last but not least, update ToDo app
+
+**3.**
+- *Passing* **Children**
+  ```bash
+    //App.jsx
+  
+    function App() {
+      return (
+        <>
+          <Container>
+            <h1>hello</h1>
+            <Random />
+          </Container>
+  
+
+          <Container>
+            <Bsbtn></Bsbtn>
+          </Container>
+
+  
+          <Random />
+
+          <Container>
+            <Random></Random>
+            <p className="myClass">this is react app</p>
+          </Container>
+
+        </>
+      );
+    }
+
+    //Container.jsx
+    import styles from './Container.module.css'
+
+    export default function Container(props) {
+      return <div className={styles.divs}>
+      {props.children}
+      </div>;
+    }
+  
+    //Container.module.css
+    .divs {
+      margin: 30px auto;
+      width: 50%;
+      border-radius: 20px;
+      border: 2px solid black;
+      padding: 30px;
+      background-color: wheat;
+    }
+          
+  ```
+  
+- **Handling(can be funt) Event & Passing Fun't/method/handle via pros**
+  ```bash
+      function App() {
+
+        //Handle(onBtnClick) of event(onClick)
+  
+        const onBtnClick = (event) => {
+          let targetVal = event.target.childNodes[0].data;
+          console.log(targetVal);
+        };
+      
+        return (
+          <div id="calculator" className={styles.calsi}>
+
+            //passing by props(onBtnClickprops), defines funt(onBtnClick) in parent(App.jsx)
+            // call by child(ButtonContainer)
+            <ButtonContainer onBtnClickprops={onBtnClick}></ButtonContainer>
+          </div>
+        );
+      }
+
+      //ButtonContainer.jsx
+      //passing handle via props(onBtnClickprops)
+      export default function ButtonContainer({onBtnClickprops}) {
+        const buttonsNames = ["C", "/", "*", "+", "1", "2", "3", "-", "4", "5", "6", ".", "7", "8", "9", "=", "0",];
+        return (
+          <div>
+            {buttonsNames.map((buttonsName) => (
+              <button
+              //call(onBtnClickprops) by child
+              onClick={onBtnClickprops}
+              >
+                {buttonsName}
+              </button>
+            ))}
+          </div>
+        );
+      }      
+  ```
+
+- **Managing States, useState()**
+    ```bash
+      //first import the useState hook  
+      import { useState } from "react";
+      
+      function App() {
+        //setup usestate: [current value, and method] = useState(initialValue)
+    
+        const [calVal, setCAlVal] = useState("");
+
+        //handle, that assign the updated value to method(setCAlVal())
+        const onBtnClick = (event) => {
+          let targetVal = event.target.childNodes[0].data;
+          if (targetVal === "C") {
+            setCAlVal("");
+          } else if (targetVal === "=") {
+            const result = eval(calVal);
+            setCAlVal(result);
+          } else {
+            const newDisplayVal = calVal + targetVal;
+
+            //value update to the current value (calVal)
+            setCAlVal(newDisplayVal);
+          }
+        };
+      
+        return (
+          <div id="calculator" className={styles.calsi}>
+
+            //pass updated value(current value)
+            <Display displayVal={calVal}></Display>
+
+            //event that pass event/value(targetVal)
+            <ButtonContainer onBtnClick={onBtnClick}></ButtonContainer>
+          </div>
+        );
+      }
+      
+      export default App;
+      //ButtonContainer.jsx
+      //passing handle via props(onBtnClickprops)
+      export default function ButtonContainer({onBtnClickprops}) {
+        const buttonsNames = ["C", "/", "*", "+", "1", "2", "3", "-", "4", "5", "6", ".", "7", "8", "9", "=", "0",];
+        return (
+          <div>
+            {buttonsNames.map((buttonsName) => (
+              <button
+              //call(onBtnClickprops) by child
+              onClick={onBtnClickprops}
+              >
+                {buttonsName}
+              </button>
+            ))}
+          </div>
+        );
+      } 
+    ```
+- 
