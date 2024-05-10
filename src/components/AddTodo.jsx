@@ -13,13 +13,15 @@ export default function AddTodo({ onNewItem }) {
   };
 
   const handleAddButtonClick = () => {
+    event.preventDefault();
     onNewItem(todoName, todoDate);
     setTodoName('');
     setTodoDate('');
   };
   return (
     <div className="container text-center">
-      <div className="row cRow">
+      <form className="row cRow"
+      onSubmit={handleAddButtonClick}>
         <div className="col-6">
           <input
             type="text"
@@ -36,14 +38,13 @@ export default function AddTodo({ onNewItem }) {
         </div>
         <div className="col-2">
           <button
-            type="button"
+            type="submit"
             className="btn btn-success cBtn"
-            onClick={handleAddButtonClick}
           >
             Add
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

@@ -310,4 +310,50 @@ I learned
         );
       } 
     ```
-- 
+
+
+- **Using Forms**
+
+    ```bash
+      //AddTodo.jsx
+      export default function AddTodo({ onNewItem }) {
+        const [todoName, setTodoName] = useState();
+        const [todoDate, setTodoDate] = useState();
+
+        const handleAddButtonClick = () => {
+          //Add prevent to reload
+          event.preventDefault();
+
+          onNewItem(todoName, todoDate);
+          setTodoName('');
+          setTodoDate('');
+        };
+        return (
+            <form className="row cRow"
+
+              //Add this event with handler
+              onSubmit={handleAddButtonClick}
+              
+              >
+                <input
+                  type="text"
+                  placeholder="Enter Todo here"
+                  value={todoName}
+                  onChange={handleNameChange}
+                />
+                <input type="date" name="" id="" 
+                  value={todoDate} 
+                  onChange={handleDateChange}
+                />
+                <button
+                  type="submit"
+                  className="btn btn-success cBtn"
+                >
+                  Add
+                </button>
+            </form>
+        );
+      }
+    ```
+
+- **Use ref**
