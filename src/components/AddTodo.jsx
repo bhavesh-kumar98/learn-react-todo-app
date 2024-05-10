@@ -1,22 +1,20 @@
-import { useState } from "react";
+import { useRef} from "react";
 
 export default function AddTodo({ onNewItem }) {
-  const [todoName, setTodoName] = useState();
-  const [todoDate, setTodoDate] = useState();
 
-  const handleNameChange = (event) => {
-    setTodoName(event.target.value);
-  };
+  const todoName = useRef();
+  const todoDate = useRef();
 
-  const handleDateChange = (event) => {
-    setTodoDate(event.target.value);
-  };
 
-  const handleAddButtonClick = () => {
+  const handleAddButtonClick = (event) => {
     event.preventDefault();
-    onNewItem(todoName, todoDate);
-    setTodoName('');
-    setTodoDate('');
+    const todoNameCurr =todoName.current.value;
+    const todoDateCurr =todoDate.current.value;
+
+    todoName.current.value = '';
+    todoDate.current.value = '';
+  
+    onNewItem(todoNameCurr, todoDateCurr);
   };
   return (
     <div className="container text-center">
@@ -26,14 +24,14 @@ export default function AddTodo({ onNewItem }) {
           <input
             type="text"
             placeholder="Enter Todo here"
-            value={todoName}
-            onChange={handleNameChange}
+            ref={todoName}
+
           />
         </div>
         <div className="col-4">
           <input type="date" name="" id="" 
-          value={todoDate} 
-          onChange={handleDateChange}
+          ref={todoDate}
+
           />
         </div>
         <div className="col-2">

@@ -23,8 +23,6 @@ function App() {
       (item) => item.todoName !== todoItemName
     );
     setTodoItems(updatedTodoItems);
-    // console.log(todoItems);
-    // console.log(todoItemName);
   };
   return (
     <center className="todo-container">

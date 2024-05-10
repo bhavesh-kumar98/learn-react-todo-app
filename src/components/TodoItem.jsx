@@ -4,7 +4,7 @@ function TodoItem({ todoName, todoDate, onDeleteClick }) {
       <div className="row cRow">
         <div 
         key={todoName} 
-        className="col-6 text-uppercase cBold">
+        className="col-6 cBold">
           {todoName}
         </div>
         <div className="col-4">{todoDate}</div>

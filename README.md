@@ -357,3 +357,64 @@ I learned
     ```
 
 - **Use ref**
+
+    ```bash
+
+      //AddTodo.jsx
+      import { useRef} from "react";
+
+      export default function AddTodo({ onNewItem }) {
+
+        //create ref
+        const todoName = useRef();
+        const todoDate = useRef();
+
+
+        const handleAddButtonClick = (event) => {
+          event.preventDefault();
+          //access the current value
+          const todoNameCurr =todoName.current.value;
+          const todoDateCurr =todoDate.current.value;
+
+          todoName.current.value = '';
+          todoDate.current.value = '';
+        
+          //passing the curr value to props
+          onNewItem(todoNameCurr, todoDateCurr);
+        };
+        return (
+          <div className="container text-center">
+            <form className="row cRow"
+            onSubmit={handleAddButtonClick}>
+              <div className="col-6">
+                <input
+                  type="text"
+                  placeholder="Enter Todo here"
+
+                  //set ref value
+                  ref={todoName}
+
+                />
+              </div>
+              <div className="col-4">
+                <input type="date" name="" id="" 
+
+                //set ref value
+                ref={todoDate}
+
+                />
+              </div>
+              <div className="col-2">
+                <button
+                  type="submit"
+                  className="btn btn-success cBtn"
+                >
+                  Add
+                </button>
+              </div>
+            </form>
+          </div>
+        );
+      }
+    ```
+
