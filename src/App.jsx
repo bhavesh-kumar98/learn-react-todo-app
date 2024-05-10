@@ -10,12 +10,22 @@ function App() {
 
   const [todoItems, setTodoItems] = useState(todoData);
 
+  // const handleNewItem = (itemName, itemDate) => {
+  //     setTodoItems((currValue) => {     
+  //       const newTodoItems = [
+  //         { todoName: itemName, todoDate: itemDate },
+  //         ...currValue,
+  //      ];
+  //      return newTodoItems;
+  //     });
+  // };
+
   const handleNewItem = (itemName, itemDate) => {
-    const newTodoItems = [
-      { todoName: itemName, todoDate: itemDate },
-      ...todoItems,
-    ];
-    setTodoItems(newTodoItems);
+
+  setTodoItems((currValue) => [
+        { todoName: itemName, todoDate: itemDate },
+        ...currValue,
+     ]);
   };
 
   const handleDeleteItem = (todoItemName) => {

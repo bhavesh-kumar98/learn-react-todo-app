@@ -418,3 +418,25 @@ I learned
       }
     ```
 
+**Update state from Previous Sate:**
+- *Spread* Opr (...spread):-
+  ```bash
+      const handleNewItem = (itemName, itemDate) => {
+      const newTodoItems = [
+      { todoName: itemName, todoDate: itemDate },
+      ...todoItems,
+      ];
+      setTodoItems(newTodoItems);
+    };
+  ```
+  
+- *Functional* Updates:-
+  ```bash
+    
+  const handleNewItem = (itemName, itemDate) => {
+
+  setTodoItems((currValue) => [
+        { todoName: itemName, todoDate: itemDate },
+        ...currValue,
+     ]);
+  };
