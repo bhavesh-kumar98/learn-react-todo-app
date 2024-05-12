@@ -441,3 +441,204 @@ I learned
      ]);
   };
   ```
+- **Context API:**
+  - **1. create dir & file:** ./src/store/todo-items-store.jsx
+  - **2. initialization:** 
+    ```bash
+        //todo-items-store.jsx
+        //for create
+        import { createContext } from "react";
+
+        export const TodoItemsContext = createContext({
+          //values
+          todoItems: [],
+          addNewItem: () => {},
+          deleteItem: () => {},
+          });
+    ```
+  - **3. Provider:** 
+    ```bash
+          //App.jsx
+
+          import { TodoItemsContext } from "./store/todo-items-store";
+
+          function App() {
+
+            //this array(todoItems) are passed into todo-items-store.jsx as value
+
+            const [todoItems, setTodoItems] = useState([]);
+
+            //this fnt(addNewItem) are passed into todo-items-store.jsx as value
+
+            const addNewItem = (itemName, itemDate) => {
+              setTodoItems((currValue) => [
+                { todoName: itemName, todoDate: itemDate },
+                ...currValue,
+              ]);
+            };
+
+            //this fnt(deleteItem) are passed into todo-items-store.jsx as value
+
+            const deleteItem = (todoItemName) => {
+              const updatedTodoItems = todoItems.filter(
+                (item) => item.todoName !== todoItemName
+              );
+              setTodoItems(updatedTodoItems);
+            };
+
+            return (
+
+              //we use Context Api by Provider and Value
+
+              <TodoItemsContext.Provider 
+                value={{
+                  todoItems,
+                  addNewItem,
+                  deleteItem,
+                  }}>
+                <center className="todo-container">
+                  <AppName></AppName>
+                  <AddTodo></AddTodo>
+                  <WelcomeMsg></WelcomeMsg>
+                  <TodoItems></TodoItems>
+                </center>
+              </TodoItemsContext.Provider>
+            );
+          }
+          export default App;
+
+      ```
+  - **4. Access Value:** 
+    - *//AddTodo.jsx*
+    ```bash
+        //AddTodo.jsx
+
+
+        // Access the Value by useContext 
+        import { useContext, useRef} from "react";
+
+        import { TodoItemsContext } from "../store/todo-items-store";
+
+        export default function AddTodo() {
+
+          const todoName = useRef();
+          const todoDate = useRef();
+
+          // Access the Value by useContext 
+          const {addNewItem} = useContext(TodoItemsContext)
+
+          const handleAddButtonClick = (event) => {
+            event.preventDefault();
+            const todoNameCurr =todoName.current.value;
+            const todoDateCurr =todoDate.current.value;
+
+            todoName.current.value = '';
+            todoDate.current.value = '';
+
+            //passed the context value(addNewItem)
+
+            addNewItem(todoNameCurr, todoDateCurr);
+          };
+
+          return (
+            <div className="container text-center">
+              <form className="row cRow"
+              onSubmit={handleAddButtonClick}>
+
+                <div className="col-6">
+                  <input
+                    type="text"
+                    placeholder="Enter Todo here"
+                    ref={todoName}
+                  />
+                </div>
+
+                <div className="col-4">
+                  <input type="date" name="" id="" 
+                  ref={todoDate}
+                  />
+                </div>
+
+                <div className="col-2">
+
+                  <button
+                    type="submit"
+                    className="btn btn-success cBtn"
+                  >
+                    Add
+                  </button>
+
+                </div>
+
+              </form>
+            </div>
+          );
+        }
+    ```
+
+    - *//TodoItems.jsx*
+    ```bash
+        //TodoItems.jsx
+        
+        // use useContext for Access value
+        import { useContext } from "react";
+        import { TodoItemsContext } from "../store/todo-items-store";
+
+        function TodoItems() {
+
+          // Access the Value by useContext 
+          const {todoItems} = useContext(TodoItemsContext);
+
+          return (
+            <center className="todo-container">
+
+              // passed here (todoItems)
+              {todoItems.map((item) => (
+                <TodoItem
+                  todoName={item.todoName}
+                  todoDate={item.todoDate}
+                ></TodoItem>
+              ))}
+            </center>
+          );
+        }
+
+        export default TodoItems;
+    ```
+    - *//TodoItem.jsx*
+    ```bash
+        //TodoItem.jsx
+        
+        // use useContext for Access value
+        import { useContext } from "react";
+        import { TodoItemsContext } from "../store/todo-items-store";
+
+        function TodoItem({ todoName, todoDate }) {
+
+          // access fnt value delbtn
+          const { deleteItem } = useContext(TodoItemsContext);
+          return (
+            <div className="container">
+              <div className="row cRow">
+                <div key={todoName} className="col-6 cBold">
+                  {todoName}
+                </div>
+                <div className="col-4">{todoDate}</div>
+                <div className="col-2">
+                  <button
+                    type="button"
+                    className="btn btn-danger cBtn"
+
+                    //use here
+                    onClick={() => deleteItem(todoName)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        export default TodoItem;
+    ```

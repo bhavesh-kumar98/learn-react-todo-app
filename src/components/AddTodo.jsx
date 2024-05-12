@@ -1,10 +1,12 @@
-import { useRef} from "react";
+import { useContext, useRef} from "react";
+import { TodoItemsContext } from "../store/todo-items-store";
 
-export default function AddTodo({ onNewItem }) {
+export default function AddTodo() {
 
   const todoName = useRef();
   const todoDate = useRef();
 
+  const {addNewItem} = useContext(TodoItemsContext)
 
   const handleAddButtonClick = (event) => {
     event.preventDefault();
@@ -14,7 +16,7 @@ export default function AddTodo({ onNewItem }) {
     todoName.current.value = '';
     todoDate.current.value = '';
   
-    onNewItem(todoNameCurr, todoDateCurr);
+    addNewItem(todoNameCurr, todoDateCurr);
   };
   return (
     <div className="container text-center">
