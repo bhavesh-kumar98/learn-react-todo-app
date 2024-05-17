@@ -9,6 +9,7 @@ function TodoItems() {
     <center className="todo-container">
       {todoItems.map((item) => (
         <TodoItem
+        key={item.todoName}
           todoName={item.todoName}
           todoDate={item.todoDate}
         ></TodoItem>

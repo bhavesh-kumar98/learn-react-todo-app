@@ -642,3 +642,166 @@ I learned
 
         export default TodoItem;
     ```
+- **Use Reducer:**
+  - **1. initialization:** 
+    ```bash
+        //todo-items-store.jsx
+
+        //for create
+        import {useReducer} from "react";
+
+        const TodoItemsContextProvider = ({ children }) => {
+
+        //1. initialization
+        <!--  const [currStats, dispatch] = useReducer(reduser, initialStats) -->
+
+          const [todoItems, dispatchTodoItems] = useReducer(todoItemsReducer, []);
+
+          return (
+            <TodoItemsContext.Provider
+              value={{
+                todoItems,
+                addNewItem,
+                deleteItem,
+              }}
+            >
+              {children}
+            </TodoItemsContext.Provider>
+          );
+        };
+
+        export default TodoItemsContextProvider;
+
+    ```
+  - **2. Action Obj And Dispatch:** 
+    ```bash
+        //todo-items-store.jsx
+
+        //action and deispat
+        const addNewItem = (itemName, itemDate) => {
+
+          //define Action Obj{type(what happand or fnt) & payload(value)}
+
+          const newItemsAction = {
+            type: "NEW_ITEM",
+            payload: {
+              itemName,
+              itemDate,
+            },
+          };
+
+          //action dispatched using the dispatch fnt,
+          //which invoke the  reducer
+          dispatchTodoItems(newItemsAction);
+        };
+
+        const deleteItem = (todoName) => {
+          //action obj
+          const deleteItemAction = {
+            type: "DELETE_ITEM",
+            payload: {
+              todoName,
+            },
+          };
+          //dispatch fnt
+          dispatchTodoItems(deleteItemAction);
+        };
+      ```
+  - **3. Reducer fnt:** 
+    ```bash
+        //todo-items-store.jsx
+        
+        //reducer fnt,
+        //that takes current state(currTodoItems), action obj
+
+
+        const todoItemsReducer = (currTodoItems, action) => {
+
+          let newTodoItems = currTodoItems;
+          if (action.type === "NEW_ITEM") {
+            newTodoItems = [
+              ...currTodoItems,
+              { todoName: action.payload.itemName, todoDate: action.payload.itemDate },
+            ];
+          } else if (action.type === "DELETE_ITEM") {
+            newTodoItems = currTodoItems.filter(
+              (item) => item.todoName !== action.payload.todoName
+            );
+          }
+
+          //return new state
+          return newTodoItems;
+        };
+    ```
+  - **4. All Together:** 
+    ```bash
+        //todo-items-store.jsx
+        
+        <!-- 1. import reducer -->
+        import { createContext, useReducer } from "react";
+
+        export const TodoItemsContext = createContext({
+          todoItems: [],
+          addNewItem: () => {},
+          deleteItem: () => {},
+        });
+
+        <!-- 4. create Reducer fnt -->
+        const todoItemsReducer = (currTodoItems, action) => {
+          let newTodoItems = currTodoItems;
+          if (action.type === "NEW_ITEM") {
+            newTodoItems = [
+              ...currTodoItems,
+              { todoName: action.payload.itemName, todoDate: action.payload.itemDate },
+            ];
+          } else if (action.type === "DELETE_ITEM") {
+            newTodoItems = currTodoItems.filter(
+              (item) => item.todoName !== action.payload.todoName
+            );
+          }
+          return newTodoItems;
+        };
+
+        const TodoItemsContextProvider = ({ children }) => {
+
+          <!-- 2. initialization -->
+          const [todoItems, dispatchTodoItems] = useReducer(todoItemsReducer, []);
+
+          <!-- 3. define Action Obj & Dispatch -->
+          const addNewItem = (itemName, itemDate) => {
+            const newItemsAction = {
+              type: "NEW_ITEM",
+              payload: {
+                itemName,
+                itemDate,
+              },
+            };
+            dispatchTodoItems(newItemsAction);
+          };
+
+          const deleteItem = (todoName) => {
+            const deleteItemAction = {
+              type: "DELETE_ITEM",
+              payload: {
+                todoName,
+              },
+            };
+            dispatchTodoItems(deleteItemAction);
+          };
+
+          return (
+            <TodoItemsContext.Provider
+              value={{
+                todoItems,
+                addNewItem,
+                deleteItem,
+              }}
+            >
+              {children}
+            </TodoItemsContext.Provider>
+          );
+        };
+
+        export default TodoItemsContextProvider;
+    ```
+    
